@@ -1,6 +1,6 @@
 {
 	"name": "angular-onbeforeunload",
-	"version": "0.1.7",
+	"version": "0.1.8",
 	"description": "angular directive to handle window.onbeforeunload event in angularJS forms",
 	"keywords": ["angular", "angularJS", "onbeforeunload", "browser", "event", "window"],
 	"repository": {
@@ -25,4 +25,4 @@
 		"grunt-push-release": "0.1.x",
 		"matchdep": "0.1.2"
 	}
-}
+}
