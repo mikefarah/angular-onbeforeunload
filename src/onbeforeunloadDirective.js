@@ -2,7 +2,7 @@ angular.module("angular-onbeforeunload").directive("onbeforeunload", ["$window",
   "use strict";
   var unloadtext, forms = [];
 
-  function handleOnbeforeUnload() {
+  function isDirty () {
     var i, form, isDirty = false;
 
     for (i = 0; i < forms.length; i++) {
@@ -13,12 +13,18 @@ angular.module("angular-onbeforeunload").directive("onbeforeunload", ["$window",
         break;
       }
     }
+    return isDirty
+  }
 
-    if (isDirty) {
-      return unloadtext;
-    } else {
-      return undefined;
+  function handleOnbeforeUnload() {
+    return isDirty() ? unloadtext : undefined;
+  }
+
+  function handleLocationChangeStart(event) {
+    if(!isDirty() || confirm(unloadtext)) {
+      return
     }
+    event.preventDefault();
   }
 
   return function ($scope, $element) {
@@ -32,6 +38,7 @@ angular.module("angular-onbeforeunload").directive("onbeforeunload", ["$window",
     });
 
     $window.onbeforeunload = handleOnbeforeUnload;
+    $scope.$on('$locationChangeStart', handleLocationChangeStart);
 
     try {
       unloadtext = $filter("translate")("onbeforeunload");
